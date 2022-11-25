@@ -15,7 +15,7 @@ const Form = (props) => {
    <div key={i} className='form--control'><input onKeyDown={(e)=>{
     setTimeout(()=>ctx.valueHandler(e),300)
    }
-    } onBlur={ctx.inputHandler} type={type} key={i+3} id={txt[i]} placeholder={txt[i]} className={`form--input ${ctx.valids[i]===false?'redClr':''}`}/>
+    } onBlur={ctx.valueHandler} type={type} key={i+3} id={txt[i]} placeholder={txt[i]} className={`form--input ${ctx.valids[i]===false?'redClr':''}`}/>
    <div key={i+11} className={`form--error ${ctx.valids[i]===false?'':'hide'}`}><img src={error} alt="!!!" /></div>
    </div>
    <p key={i+7} className={`form--msg ${ctx.valids[i]===false?'':'hide'}`}>{msg[i]}</p>

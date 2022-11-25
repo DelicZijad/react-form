@@ -10,55 +10,38 @@ function reducerFunc(state,action){
   if(action.id==="First Name" || action.id==="Last Name")cond=action.val.length>0;
   if(action.id==="Email Address")cond=action.val.includes('@');
 if(action.id==="Password")cond=action.val.length>7;
-  if(action.type="USER_INPUT") return {value:action.val,isValid:cond}
-  if(action.type="INPUT_BLUR") return {value:action.val,isValid:cond}
-return {value:'',isValid:''}
+
+return cond
 }
 
 function App() {
   const [formIsValid,setFormIsValid]=useState('/')
   const [openModal,setOpenModal]=useState(false)
-const [firstName,dispatchFirstName]=useReducer(reducerFunc,{value:'',isValid:'/'})
-const [lastName,dispatchLastName]=useReducer(reducerFunc,{value:'',isValid:'/'})
-const [email,dispatchEmail]=useReducer(reducerFunc,{value:'',isValid:'/'})
-const [password,dispatchPassword]=useReducer(reducerFunc,{value:'',isValid:'/'})
+const [firstName,dispatchFirstName]=useReducer(reducerFunc,'/')
+const [lastName,dispatchLastName]=useReducer(reducerFunc,'/')
+const [email,dispatchEmail]=useReducer(reducerFunc,'/')
+const [password,dispatchPassword]=useReducer(reducerFunc,'/')
 useEffect(()=>{
- setFormIsValid(email.isValid && lastName.isValid && firstName.isValid && password.isValid)
-  },[email.isValid,lastName.isValid,firstName.isValid,password.isValid])
+ setFormIsValid(email && lastName && firstName && password)
+  },[email,lastName,firstName,password])
  
  function valueHandler(e){
   const id=e.target.id;
  const value=e.target.value
-
  if(id==='First Name'){
-  dispatchFirstName({type:"USER_INPUT",id:id,val:value})
+  dispatchFirstName({id:id,val:value})
  }
  if(id==='Last Name'){
-  dispatchLastName({type:"USER_INPUT",id:id,val:value})
+  dispatchLastName({id:id,val:value})
  }
  if(id==='Email Address'){
-  dispatchEmail({type:"USER_INPUT",id:id,val:value})
+  dispatchEmail({id:id,val:value})
  }
  if(id==='Password'){
-  dispatchPassword({type:"USER_INPUT",id:id,val:value})
+  dispatchPassword({id:id,val:value})
  }
  }
-  function inputHandler(e){
-const id=e.target.id;
- const value=e.target.value
- if(id==='First Name'){
-  dispatchFirstName({type:"INPUT_BLUR",id:id,val:value})
- }
- if(id==='Last Name'){
-  dispatchLastName({type:"INPUT_BLUR",id:id,val:value})
- }
- if(id==='Email Address'){
-  dispatchEmail({type:"INPUT_BLUR",id:id,val:value})
- }
- if(id==='Password'){
-  dispatchPassword({type:"INPUT_BLUR",id:id,val:value})
- }
-}
+ 
 
   function formHandler(e){
     e.preventDefault()
@@ -71,10 +54,9 @@ const id=e.target.id;
   return (
     
    <AuthContext.Provider value={{
-valids:[firstName.isValid,lastName.isValid,email.isValid,password.isValid],
+valids:[firstName,lastName,email,password],
 formIsValid:formIsValid,
 formHandler,
-inputHandler,
 valueHandler
 
 }} >
